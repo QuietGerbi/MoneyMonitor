@@ -10,7 +10,7 @@
 * **Database:** PostgreSQL
 * **Cache:** Redis
 * **Containerization:** Docker, Docker Compose
-* **CI/CD:** GitHub Actions / GitLab CI
+* **CI/CD:** GitLab CI
 
 ## Требования
 Для запуска проекта в локальной среде необходимо наличие следующих инструментов:
