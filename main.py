@@ -19,6 +19,7 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 # таблица в бд
 class CurrencyRate(Base):
     __tablename__ = "rates"
@@ -26,9 +27,12 @@ class CurrencyRate(Base):
     rate = Column(Float)
     updated_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
+
 Base.metadata.create_all(bind=engine)
 
+
 templates = Jinja2Templates(directory="templates")
+
 
 def get_rates_from_api():
     response = requests.get("https://www.cbr-xml-daily.ru/daily_json.js")
@@ -39,18 +43,20 @@ def get_rates_from_api():
         "CNY": data["Valute"]["CNY"]["Value"]
     }
 
+
 @app.get("/", response_class=HTMLResponse)
 def show_rates(request: Request):
-    data = get_currency_rates() 
-    
+    data = get_currency_rates()
+
     return templates.TemplateResponse(
-        request=request, 
-        name="index.html", 
+        request=request,
+        name="index.html",
         context={
-            "rates": data["rates"], 
+            "rates": data["rates"],
             "source": data["source"]
         }
     )
+
 
 @app.get("/rates")
 def get_currency_rates():
@@ -74,4 +80,3 @@ def get_currency_rates():
     db.close()
 
     return {"source": "api_and_db_updated", "rates": rates}
-

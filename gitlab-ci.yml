@@ -1,6 +1,7 @@
 stages:
   - lint
   - build
+  - deploy
   - cleanup
 
 # проверка стиля кода
@@ -19,6 +20,14 @@ build_image:
     - docker:24.0.5-dind
   script:
     - docker build -t money_monitor_app:latest .
+
+deploy_job:
+  stage: deploy
+  script:
+    - docker compose down
+    - docker compose up -d
+  only:
+    - main
 
 # очистка старых образов
 cleanup_job:
