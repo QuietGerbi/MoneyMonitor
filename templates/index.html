@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Курсы валют</h1>
+        
+        <div class="space-y-4">
+            {% for code, rate in rates.items() %}
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl font-bold text-indigo-600">{{ code }}</span>
+                    <span class="text-gray-500 text-sm">к рублю</span>
+                </div>
+                <div class="text-xl font-mono font-semibold text-gray-700">
+                    {{ "%.2f"|format(rate) }} ₽
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button onclick="location.reload()" class="w-full mt-6 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+            Обновить данные
+        </button>
+    </div>
+</body>
+</html>
+
