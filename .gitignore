@@ -1,0 +1,22 @@
+bin/
+include/
+lib/
+lib64
+pyvenv.cfg
+.env
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Базы данных (если файлы БД лежат в папке проекта)
+*.sqlite3
+postgres_data/
+
+# Логи и временные файлы
+*.log
+.pytest_cache/
+
+# Настройки редакторов
+.vscode/

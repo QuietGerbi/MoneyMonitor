@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # FastAPI
+  web:
+    build: .
+    container_name: money_monitor_app
+    # ports:
+    #   - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  # БД postgres
+  db:
+    image: postgres:15-alpine
+    container_name: money_monitor_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-dbname}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  # Кэш Redis
+  redis:
+    image: redis:7-alpine
+    container_name: money_monitor_redis
+    ports:
+      - "6379:6379"
+    restart: always
+  nginx:
+    image: nginx:stable-alpine
+    container_name: money_monitor_nginx
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
